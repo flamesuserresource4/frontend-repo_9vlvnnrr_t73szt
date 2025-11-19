@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import { UploadCloud } from 'lucide-react'
 
 export default function Uploader({ onUploaded }) {
   const inputRef = useRef(null)
@@ -24,8 +25,8 @@ export default function Uploader({ onUploaded }) {
   return (
     <div>
       <input ref={inputRef} type="file" accept="image/*" onChange={onPick} className="hidden" />
-      <button onClick={() => inputRef.current?.click()} disabled={uploading} className="bg-emerald-600 hover:bg-emerald-500 disabled:opacity-60 text-white rounded px-3 py-2">
-        {uploading ? 'Wgrywanie...' : 'Wgraj zdjęcie'}
+      <button onClick={() => inputRef.current?.click()} disabled={uploading} className="inline-flex items-center gap-2 rounded-lg border border-emerald-400/20 bg-emerald-500/20 px-3 py-2 text-emerald-200 hover:bg-emerald-500/30 disabled:opacity-60 transition">
+        <UploadCloud className="h-4 w-4" /> {uploading ? 'Wgrywanie…' : 'Wgraj zdjęcie'}
       </button>
     </div>
   )

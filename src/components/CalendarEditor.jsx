@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import Uploader from './Uploader'
+import { Pencil } from 'lucide-react'
 
 const monthNames = ['Styczeń','Luty','Marzec','Kwiecień','Maj','Czerwiec','Lipiec','Sierpień','Wrzesień','Październik','Listopad','Grudzień']
 
@@ -47,21 +48,29 @@ export default function CalendarEditor({ calendarId }) {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold text-white">{calendar.title} · {calendar.year}</h2>
-        <div className="text-white/70 text-sm">{saving ? 'Zapisywanie...' : 'Gotowe'}</div>
+        <div className={`text-sm ${saving? 'text-amber-300':'text-emerald-300'}`}>{saving ? 'Zapisywanie…' : 'Zapisane'}</div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {orderedPages.map(p => (
-          <div key={p.month} className="bg-white/5 border border-white/10 rounded-xl p-3">
-            <div className="flex items-center justify-between mb-2">
+          <div key={p.month} className="group rounded-xl border border-white/10 bg-gradient-to-br from-slate-800/60 to-slate-900/60 p-3 transition hover:from-slate-800 hover:to-slate-900">
+            <div className="mb-2 flex items-center justify-between">
               <div className="font-medium text-white">{monthNames[p.month-1]}</div>
               <Uploader onUploaded={(url)=>{ setPage(p.month, { image_url: url }); savePage(p.month, { image_url: url }) }} />
             </div>
-            <div className="aspect-[4/3] bg-black/20 rounded-lg overflow-hidden flex items-center justify-center">
-              {p.image_url ? (<img src={`${API}${p.image_url}`} alt="preview" className="w-full h-full object-cover" />) : (
-                <div className="text-white/60 text-sm">Brak zdjęcia</div>
+            <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-white/10 bg-black/30">
+              {p.image_url ? (
+                <img src={`${API}${p.image_url}`} alt="preview" className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]" />
+              ) : (
+                <div className="grid h-full place-items-center text-white/60 text-sm">
+                  Brak zdjęcia
+                </div>
               )}
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 transition group-hover:opacity-100"></div>
             </div>
-            <textarea placeholder="Notatka" className="mt-2 w-full bg-white/10 border border-white/10 rounded p-2 text-white text-sm" value={p.note||''} onChange={e=> setPage(p.month, { note: e.target.value })} onBlur={e=> savePage(p.month, { note: e.target.value })} />
+            <div className="mt-2 flex items-center gap-2">
+              <Pencil className="h-4 w-4 text-white/50" />
+              <textarea placeholder="Notatka" className="flex-1 min-h-[44px] bg-slate-900/60 border border-white/10 rounded-lg p-2 text-white text-sm outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition" value={p.note||''} onChange={e=> setPage(p.month, { note: e.target.value })} onBlur={e=> savePage(p.month, { note: e.target.value })} />
+            </div>
           </div>
         ))}
       </div>

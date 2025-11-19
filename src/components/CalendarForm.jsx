@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Sparkles } from 'lucide-react'
 
 export default function CalendarForm({ onCreated }) {
   const [title, setTitle] = useState('Mój kalendarz')
@@ -25,27 +26,29 @@ export default function CalendarForm({ onCreated }) {
   }
 
   return (
-    <form onSubmit={submit} className="bg-white/5 border border-white/10 rounded-xl p-4 flex flex-col gap-3">
-      <div className="grid grid-cols-2 gap-3">
+    <form onSubmit={submit} className="flex flex-col gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <label className="flex flex-col text-sm text-white/80">Tytuł
-          <input className="mt-1 bg-white/10 border border-white/10 rounded px-3 py-2 text-white" value={title} onChange={e=>setTitle(e.target.value)} />
+          <input className="mt-1 bg-slate-900/60 border border-white/10 rounded-lg px-3 py-2 text-white placeholder-white/40 outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition" value={title} onChange={e=>setTitle(e.target.value)} placeholder="Np. Rodzinny 2025" />
         </label>
         <label className="flex flex-col text-sm text-white/80">Rok
-          <input type="number" className="mt-1 bg-white/10 border border-white/10 rounded px-3 py-2 text-white" value={year} onChange={e=>setYear(e.target.value)} />
+          <input type="number" className="mt-1 bg-slate-900/60 border border-white/10 rounded-lg px-3 py-2 text-white outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition" value={year} onChange={e=>setYear(e.target.value)} />
         </label>
         <label className="flex flex-col text-sm text-white/80">Miesiąc startowy
-          <select className="mt-1 bg-white/10 border border-white/10 rounded px-3 py-2 text-white" value={startMonth} onChange={e=>setStartMonth(e.target.value)}>
+          <select className="mt-1 bg-slate-900/60 border border-white/10 rounded-lg px-3 py-2 text-white outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition" value={startMonth} onChange={e=>setStartMonth(e.target.value)}>
             {Array.from({length:12}, (_,i)=>i+1).map(m=> <option key={m} value={m}>{m}</option>)}
           </select>
         </label>
         <label className="flex flex-col text-sm text-white/80">Styl
-          <select className="mt-1 bg-white/10 border border-white/10 rounded px-3 py-2 text-white" value={style} onChange={e=>setStyle(e.target.value)}>
+          <select className="mt-1 bg-slate-900/60 border border-white/10 rounded-lg px-3 py-2 text-white outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition" value={style} onChange={e=>setStyle(e.target.value)}>
             <option value="classic">Klasyczny</option>
             <option value="minimal">Minimal</option>
           </select>
         </label>
       </div>
-      <button disabled={loading} className="mt-2 bg-blue-600 hover:bg-blue-500 disabled:opacity-60 text-white rounded px-4 py-2">{loading? 'Tworzenie...' : 'Utwórz kalendarz'}</button>
+      <button disabled={loading} className="group inline-flex items-center gap-2 mt-2 bg-gradient-to-br from-blue-600 to-emerald-500 hover:brightness-110 disabled:opacity-60 text-white rounded-lg px-4 py-2 transition">
+        <Sparkles className="h-4 w-4 group-disabled:opacity-70" /> {loading? 'Tworzenie...' : 'Utwórz kalendarz'}
+      </button>
     </form>
   )
 }
